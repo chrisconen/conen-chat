@@ -13,7 +13,7 @@ A piaci pozicionálás kettős: havi bérelhető weboldalak 5 ezer Ft-tól (alap
 - Mission: Mérhető üzleti eredményt hozó, AI- és ember-olvasható weboldalakat és webshopokat építeni szolgáltató cégeknek — nem ígéreteket, hanem méréseket adni.
 - Contact:  info@conendigital.hu
 - Website: https://conendigital.hu
-- Phone: +36 30 569 6550 (placeholder — pontos szám a kapcsolat oldalon)
+- Phone: +36 30 569 6550
 - Founder: Chris Conen — Founder & CEO, 44 éves német-magyar vállalkozó
 
 ## Pozicionálás és differenciálók

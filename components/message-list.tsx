@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { Fragment, useEffect, useRef, type ReactNode } from "react"
 import type { UIMessage } from "ai"
 
 function textOf(message: UIMessage): string {
@@ -10,6 +10,52 @@ function textOf(message: UIMessage): string {
     )
     .map((p) => p.text)
     .join("")
+}
+
+const LINK_RE = /(https?:\/\/[^\s<>"]+|[\w.+-]+@[\w-]+(?:\.[\w-]+)+)/g
+const CTA_RE = /^https?:\/\/(www\.)?conendigital\.hu\/kapcsolat\/?$/i
+
+function renderBotText(text: string): ReactNode[] {
+  const out: ReactNode[] = []
+  let lastIdx = 0
+  let key = 0
+  for (const match of text.matchAll(LINK_RE)) {
+    const idx = match.index ?? 0
+    if (idx > lastIdx) out.push(<Fragment key={key++}>{text.slice(lastIdx, idx)}</Fragment>)
+
+    const token = match[0]
+    const isEmail = !token.startsWith("http") && token.includes("@")
+    const href = isEmail ? `mailto:${token}` : token
+
+    if (!isEmail && CTA_RE.test(token)) {
+      out.push(
+        <a
+          key={key++}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="my-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--color-cyan)] px-3 py-1.5 text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--color-bg)] no-underline transition-all hover:shadow-[0_0_20px_-2px_rgba(0,240,255,0.7)]"
+        >
+          Foglalj discovery callt →
+        </a>,
+      )
+    } else {
+      out.push(
+        <a
+          key={key++}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[var(--color-cyan)] underline underline-offset-2 hover:opacity-80"
+        >
+          {token}
+        </a>,
+      )
+    }
+    lastIdx = idx + token.length
+  }
+  if (lastIdx < text.length) out.push(<Fragment key={key++}>{text.slice(lastIdx)}</Fragment>)
+  return out
 }
 
 export function MessageList({
@@ -43,7 +89,7 @@ export function MessageList({
                     : "max-w-[88%] whitespace-pre-wrap rounded-2xl rounded-bl-sm border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2.5 text-[14px] leading-relaxed text-foreground"
                 }
               >
-                {content}
+                {isUser ? content : renderBotText(content)}
               </div>
             </div>
           )
