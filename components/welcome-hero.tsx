@@ -14,7 +14,7 @@ export function WelcomeHero({ onPick, disabled = false }: { onPick?: (text: stri
       </p>
       <p className="text-sm leading-relaxed text-[var(--color-fg-dim)]">
         Kérdezz az árazásról, szolgáltatásokról vagy technológiákról, mondd el milyen projektet
-        tervezel — komoly érdeklődéseket ingyenes visszahívásra irányítalak.
+        tervezel — komoly érdeklődés esetén ingyenes visszahívásra irányítalak.
       </p>
       <div className="flex flex-wrap justify-center gap-2 pt-2 text-[11px]">
         {SUGGESTIONS.map(({ chip, prompt }) => (
