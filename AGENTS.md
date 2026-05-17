@@ -35,8 +35,7 @@ The resolver in `lib/llm.ts` passes the model ID **verbatim** to the provider SD
 
 # Layout
 
-- `app/page.tsx` — host landing (developer-facing, not the chat)
-- `app/widget/page.tsx` — the chat panel page, loaded into the iframe on the host site
+- `app/page.tsx` — the chat panel page (also loaded into the iframe on the host site via `/widget.js`)
 - `app/api/chat/route.ts` — POST endpoint. Uses `streamText` from `ai` and `resolveModel()` from `lib/llm.ts`.
 - `components/` — chat UI (chat-panel uses `useChat` from `@ai-sdk/react`; message-list renders `UIMessage.parts`)
 - `content/` — Markdown source files for the system prompt. Edit these to teach the bot about Conen Digital — never hardcode info in TS.
@@ -47,7 +46,7 @@ The resolver in `lib/llm.ts` passes the model ID **verbatim** to the provider SD
 
 # Commands
 
-- `bun dev` — http://localhost:3000 (host page) and http://localhost:3000/widget (chat panel)
+- `bun dev` — http://localhost:3000 (chat panel)
 - `bun run build` — production build
 - `bun run lint` — ESLint
 
