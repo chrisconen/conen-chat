@@ -1,55 +1,56 @@
 "use client"
 
-import { useState } from "react"
-import type { Message } from "@/lib/types"
+import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport } from "ai"
 import { MessageList } from "./message-list"
 import { InputBar } from "./input-bar"
+import { WelcomeHero } from "./welcome-hero"
 
 export function ChatPanel() {
-  const [messages, setMessages] = useState<Message[]>([])
-  const [loading, setLoading] = useState(false)
+  const { messages, sendMessage, status, error } = useChat({
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
+  })
 
-  async function send(text: string) {
+  const loading = status === "submitted" || status === "streaming"
+  const isEmpty = messages.length === 0 && !loading && !error
+
+  function send(text: string) {
     if (!text.trim() || loading) return
-    const userMsg: Message = {
-      id: crypto.randomUUID(),
-      role: "user",
-      content: text,
-      ts: new Date().toISOString(),
-    }
-    const next = [...messages, userMsg]
-    setMessages(next)
-    setLoading(true)
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ messages: next }),
-      })
-      const data = (await res.json()) as { role: "assistant"; content: string; ts: string }
-      setMessages([
-        ...next,
-        { id: crypto.randomUUID(), role: data.role, content: data.content, ts: data.ts },
-      ])
-    } catch {
-      setMessages([
-        ...next,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          content: "A kérés most nem ment át. Próbáld újra egy pillanat múlva.",
-          ts: new Date().toISOString(),
-        },
-      ])
-    } finally {
-      setLoading(false)
-    }
+    sendMessage({ text })
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <MessageList messages={messages} loading={loading} />
-      <InputBar onSend={send} disabled={loading} />
+    <div className="relative flex h-full flex-col overflow-hidden bg-background">
+      <div className="scanlines" aria-hidden="true" />
+
+      {/* Brand header */}
+      <header className="relative z-10 flex items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)]/60 px-5 py-3 backdrop-blur">
+        <div className="flex items-center gap-2.5">
+          <span
+            className="nexus-dot h-2 w-2 rounded-full bg-[var(--color-cyan)] shadow-[0_0_12px_var(--color-cyan)]"
+            aria-hidden="true"
+          />
+          <div className="flex flex-col leading-tight">
+            <span className="text-[15px] font-semibold tracking-tight">NEXUS AI</span>
+            <span className="micro-label">Conen Digital</span>
+          </div>
+        </div>
+        <span className="micro-label">{loading ? "thinking…" : "online"}</span>
+      </header>
+
+      {isEmpty ? (
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-10">
+          <WelcomeHero />
+          <div className="mt-10 w-full max-w-xl px-2">
+            <InputBar onSend={send} disabled={loading} variant="center" />
+          </div>
+        </div>
+      ) : (
+        <>
+          <MessageList messages={messages} loading={loading} error={error?.message} />
+          <InputBar onSend={send} disabled={loading} variant="bottom" />
+        </>
+      )}
     </div>
   )
 }

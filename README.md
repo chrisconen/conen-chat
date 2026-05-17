@@ -5,18 +5,42 @@ Public AI chatbot for [conen.digital](https://conen.digital). Floating widget em
 ## Quick start
 
 ```bash
-bun install                                    # if not already done by create-next-app
-bun add @anthropic-ai/sdk                      # not yet installed — see AGENTS.md
-echo 'ANTHROPIC_API_KEY=sk-ant-...' > .env.local
+bun install
+cp .env.example .env.local        # then edit .env.local with your real keys
 bun dev
 ```
 
 - Host page: http://localhost:3000
 - Chat panel: http://localhost:3000/widget
 
+By default the bot uses `openai:gpt-4o-mini`. To switch:
+
+```env
+# .env.local
+MODEL=anthropic:claude-sonnet-4-6
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Supported providers (operator-side, no visitor selector):
+
+**Paid:**
+- `openai:gpt-4o-mini`, `openai:gpt-4.1`, `openai:gpt-4o`
+- `anthropic:claude-sonnet-4-6`, `anthropic:claude-haiku-4-5`
+- `google:gemini-2.5-flash`, `google:gemini-2.5-pro`
+- `deepseek:deepseek-chat`, `deepseek:deepseek-reasoner`
+
+**Free tier (Groq — daily free credits + generous limits):**
+- `groq:llama-3.3-70b-versatile` (best quality on free tier)
+- `groq:llama-3.1-8b-instant` (fastest, lower quality)
+- `groq:mixtral-8x7b-32768`
+
+Get a free Groq API key at [console.groq.com](https://console.groq.com).
+
 ## Current state
 
-This is a **Phase 1 scaffold**. The chat UI is wired up end-to-end, but `app/api/chat/route.ts` returns a placeholder response — the Anthropic Claude integration is intentionally not wired yet (deferred to confirm scope first). See [AGENTS.md](./AGENTS.md) for wire-up steps.
+**Phase 1 — done.** Streaming chat via Vercel AI SDK v6 with 4-provider support (OpenAI, Anthropic, Google, DeepSeek). Active model selected via `MODEL` env var. Content-driven system prompt — edit `content/*.md` to teach the bot.
+
+Next phases (Supabase memory, lead capture, demo booking, polish) are still ahead — see [AGENTS.md](./AGENTS.md).
 
 ## Embedding on conen.digital
 

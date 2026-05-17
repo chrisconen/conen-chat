@@ -1,26 +1,168 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Conen Digital brand tokens — mirrored from conendigital.hu
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* surfaces */
+  --color-bg: #0a0a0a;
+  --color-surface: #1a1a1a;
+  --color-surface-2: #2a2a2a;
+  --color-fg: #ffffff;
+  --color-fg-dim: rgba(255, 255, 255, 0.62);
+  --color-fg-faint: rgba(255, 255, 255, 0.34);
+
+  /* brand accents */
+  --color-cyan: #00f0ff;
+  --color-magenta: #bf00ff;
+  --color-orange: #ff6b00;
+
+  /* user bubble — cyan with dark ink for contrast */
+  --color-user-bg: #00f0ff;
+  --color-user-fg: #0a0a0a;
+
+  /* borders & focus */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+  --color-ring: #00f0ff;
+
+  /* status */
+  --color-error-bg: rgba(255, 80, 80, 0.12);
+  --color-error-fg: #ff8a8a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-fg);
+  --color-surface: var(--color-surface);
+  --color-surface-2: var(--color-surface-2);
+  --color-cyan: var(--color-cyan);
+  --color-magenta: var(--color-magenta);
+  --color-orange: var(--color-orange);
+  --color-user: var(--color-user-bg);
+  --color-user-fg: var(--color-user-fg);
+  --color-border: var(--color-border);
+  --color-ring: var(--color-ring);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-cyan);
+  color: var(--color-bg);
+}
+
+/* ============================================================
+   Brand utilities
+   ============================================================ */
+
+.micro-label {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-fg-dim);
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.12) 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  opacity: 0.18;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.glow-cyan {
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.4),
+    0 0 18px -2px rgba(0, 240, 255, 0.55);
+}
+
+.glow-cyan-hover:hover {
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.7),
+    0 0 24px -2px rgba(0, 240, 255, 0.8);
+}
+
+@keyframes nexus-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.94); }
+}
+
+.nexus-dot {
+  animation: nexus-pulse 1.6s ease-in-out infinite;
+}
+
+/* ============================================================
+   Rotating gradient border (cyan → magenta → orange → cyan)
+   Used around the input textarea.
+   ============================================================ */
+
+@property --rotate-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes rotate-border {
+  to { --rotate-angle: 360deg; }
+}
+
+.rotating-border {
+  position: relative;
+  isolation: isolate;
+  background:
+    conic-gradient(
+      from var(--rotate-angle),
+      var(--color-cyan) 0%,
+      var(--color-magenta) 33%,
+      var(--color-orange) 66%,
+      var(--color-cyan) 100%
+    );
+  animation: rotate-border 6s linear infinite;
+}
+
+.rotating-border::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    conic-gradient(
+      from var(--rotate-angle),
+      var(--color-cyan) 0%,
+      var(--color-magenta) 33%,
+      var(--color-orange) 66%,
+      var(--color-cyan) 100%
+    );
+  filter: blur(18px);
+  opacity: 0.55;
+  animation: rotate-border 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexus-dot,
+  .rotating-border,
+  .rotating-border::before {
+    animation: none;
+  }
 }
