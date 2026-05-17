@@ -36,7 +36,7 @@ function renderBotText(text: string): ReactNode[] {
           rel="noopener noreferrer"
           className="my-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--color-cyan)] px-3 py-1.5 text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--color-bg)] no-underline transition-all hover:shadow-[0_0_20px_-2px_rgba(0,240,255,0.7)]"
         >
-          Foglalj discovery callt →
+          Kérj visszahívást →
         </a>,
       )
     } else {
