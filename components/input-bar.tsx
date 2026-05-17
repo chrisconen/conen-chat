@@ -80,24 +80,17 @@ export function InputBar({
           </button>
         </div>
 
-        <div className="flex items-center justify-center gap-4 text-[12px] text-[var(--color-fg-dim)]">
-          <span className="flex items-center gap-1.5">
-            <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-md border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-1.5 font-mono text-[10px] text-foreground">
-              ⏎
-            </kbd>
-            küld
-          </span>
-          <span className="text-[var(--color-fg-faint)]">·</span>
-          <span className="flex items-center gap-1.5">
-            <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-md border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-1.5 font-mono text-[10px] text-foreground">
-              ⇧
-            </kbd>
-            <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-md border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-1.5 font-mono text-[10px] text-foreground">
-              ⏎
-            </kbd>
-            új sor
-          </span>
-        </div>
+        <p className="text-center text-[11px] leading-snug text-foreground/60">
+          A beszélgetést a Conen Digital naplózza a szolgáltatás fejlesztéséhez.{" "}
+          <a
+            href="https://conendigital.hu/adatvedelem"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 text-foreground/80 hover:text-[var(--color-cyan)] transition-colors"
+          >
+            Adatvédelmi tájékoztató »
+          </a>
+        </p>
       </div>
     </div>
   )
