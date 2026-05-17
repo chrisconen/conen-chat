@@ -53,7 +53,7 @@
     btn.textContent = "NEXUS"
 
     btn.addEventListener("click", function () {
-      if (!iframe.src) iframe.src = WIDGET_HOST + "/widget"
+      if (!iframe.src) iframe.src = WIDGET_HOST + "/"
       var isOpen = wrap.classList.toggle("open")
       btn.setAttribute("aria-expanded", isOpen ? "true" : "false")
       btn.setAttribute("data-open", isOpen ? "true" : "false")
