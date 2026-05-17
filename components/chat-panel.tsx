@@ -40,7 +40,7 @@ export function ChatPanel() {
 
       {isEmpty ? (
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-10">
-          <WelcomeHero />
+          <WelcomeHero onPick={send} disabled={loading} />
           <div className="mt-10 w-full max-w-xl px-2">
             <InputBar onSend={send} disabled={loading} variant="center" />
           </div>
