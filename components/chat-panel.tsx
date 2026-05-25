@@ -35,7 +35,17 @@ export function ChatPanel() {
             <span className="micro-label">Conen Digital</span>
           </div>
         </div>
-        <span className="micro-label">{loading ? "thinking…" : "online"}</span>
+        <div className="flex items-center gap-3">
+          <span className="micro-label">{loading ? "thinking…" : "online"}</span>
+          <button
+            type="button"
+            onClick={() => window.parent.postMessage({ type: "close-chat" }, "*")}
+            aria-label="Bezárás"
+            className="inline-flex items-center justify-center rounded-lg px-2 py-1 text-[18px] leading-none text-[var(--color-fg-dim)] transition-colors hover:bg-[var(--color-surface-2)] hover:text-[var(--color-cyan)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-cyan)]"
+          >
+            ✕
+          </button>
+        </div>
       </header>
 
       {isEmpty ? (

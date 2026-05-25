@@ -91,6 +91,14 @@
       }
     }
 
+    function closeWidget() {
+      wrap.classList.remove("open")
+      btn.setAttribute("aria-expanded", "false")
+      btn.setAttribute("data-open", "false")
+      btn.textContent = "NEXUS"
+      startParticles()
+    }
+
     btn.addEventListener("click", function () {
       if (!iframe.src) iframe.src = WIDGET_HOST + "/"
       var isOpen = wrap.classList.toggle("open")
@@ -98,6 +106,12 @@
       btn.setAttribute("data-open", isOpen ? "true" : "false")
       btn.textContent = isOpen ? "×" : "NEXUS"
       if (isOpen) { stopParticles() } else { startParticles() }
+    })
+
+    window.addEventListener("message", function (event) {
+      if (event.data && event.data.type === "close-chat") {
+        closeWidget()
+      }
     })
 
     document.body.appendChild(wrap)
