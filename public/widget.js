@@ -30,7 +30,6 @@
       ".conen-chat-frame-wrap.open{display:block;transform:translateY(0);opacity:1}",
       ".conen-chat-frame{width:100%;height:100%;border:0;display:block;background:#0a0a0a}",
       "@media (max-width:500px){.conen-chat-frame-wrap{right:0;bottom:0;width:100vw;height:100vh;max-height:100vh;border-radius:0}.conen-chat-fab{bottom:16px;right:16px;width:64px;height:64px;font-size:11px}}",
-      "@media (max-width:500px){.conen-chat-fab{z-index:2147483647!important}}",
       "@media (prefers-reduced-motion:reduce){.conen-chat-fab::before{animation:none}.conen-chat-frame-wrap{transition:none}.conen-chat-particle{display:none}}",
     ].join("")
     var style = document.createElement("style")
